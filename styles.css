@@ -147,5 +147,43 @@ body {
   border: 1px solid #c7f0d1;
   text-align: center;
 }
+.subtitle {
+  margin: 0 0 14px;
+  opacity: 0.75;
+  font-size: 16px;
+}
+
+.timeGrid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.optionGrid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.timeBtn{
+  width: 100%;
+  justify-self: center;
+}
+
+.optionBtn{
+  width: 100%;
+  justify-self: center;
+}
+/* On wider screens, show 3 across like a neat row */
+@media (min-width: 560px){
+  .timeGrid{
+    grid-template-columns: repeat(3, 1fr);
+  }
+    .optionGrid{
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 
 .hidden { display: none; }

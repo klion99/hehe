@@ -1,8 +1,15 @@
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const buttonsArea = document.getElementById("buttonsArea");
-const result = document.getElementById("result");
-const heartsWrap = document.getElementById("hearts");
+
+const step1 = document.getElementById("step1");
+const step2 = document.getElementById("step2");
+const step3 = document.getElementById("step3");
+
+const timeButtons = document.querySelectorAll(".timeBtn");
+const optionButtons = document.querySelectorAll(".option");
+const finalMsg = document.getElementById("finalMsg");
+const chosenTimeText = document.getElementById("chosenTimeText");
 
 function clamp(n, min, max) {
   return Math.min(Math.max(n, min), max);
@@ -50,43 +57,47 @@ noBtn.addEventListener("click", (e) => {
   moveNoButton();
 });
 
-// Yes click
+// Step switch on YES
 yesBtn.addEventListener("click", () => {
-  result.classList.remove("hidden");
-  buttonsArea.style.display = "none";
+  step1.classList.add("hidden");
+  step2.classList.remove("hidden");
+});
+
+// Time selection
+timeButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const choice = btn.dataset.time;
+
+    chosenTimeText.textContent = `${choice} it is!`;
+
+    // Optional: disable buttons after selection
+    timeButtons.forEach(b => (b.disabled = true));
+    timeButtons.forEach(b => (b.style.opacity = "0.8"));
+    step2.classList.add("hidden");
+    step3.classList.remove("hidden");
+  });
+});
+
+// option selection
+optionButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const choice = btn.dataset.activity;
+
+    chosenTimeText.textContent = `Yay ${choice} is awesome! Can't wait :p`;
+    finalMsg.classList.remove("hidden");
+
+    // Optional: disable buttons after selection
+    optionsButtons.forEach(b => (b.disabled = true));
+    optionsButtons.forEach(b => (b.style.opacity = "0.8"));
+  });
 });
 
 // Initial placement + keep aligned on resize
 placeNoNextToYes();
 window.addEventListener("resize", placeNoNextToYes);
 
-/* ---------------------------
-   Floating hearts background
----------------------------- */
+/* Keep your floating hearts code below this line (unchanged) */
 
-function rand(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-function setHeartVars(el) {
-  const size = rand(8, 18);
-  const x = rand(0, 100);
-  const y = rand(0, 100);
-  const dx = rand(-40, 40);
-  const dy = rand(-40, 40);
-  const rot = rand(-25, 25) + "deg";
-  const dur = rand(3.5, 7.5) + "s";
-  const op = rand(0.25, 0.75);
-
-  el.style.setProperty("--size", size + "px");
-  el.style.setProperty("--x", x + "vw");
-  el.style.setProperty("--y", y + "vh");
-  el.style.setProperty("--dx", dx + "px");
-  el.style.setProperty("--dy", dy + "px");
-  el.style.setProperty("--rot", rot);
-  el.style.setProperty("--dur", dur);
-  el.style.setProperty("--op", op);
-}
 
 function createHearts(count = 40) {
   for (let i = 0; i < count; i++) {

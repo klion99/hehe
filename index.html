@@ -7,19 +7,56 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- floating hearts background -->
+    <div id="hearts" aria-hidden="true"></div>
+  
     <main class="card" id="card">
-      <h1 class="title">Do you wanna go out on a date with me? :></h1>
-      <div class="buttons" id="buttonsArea">
-        <button class="btn yes" id="yesBtn">Yes :D </button>
+      <!-- STEP 1 -->
+      <section id="step1">
+        <h1 class="title">Will you go on a date with me?</h1>
 
-        <!-- "No" is positioned absolutely so we can move it around -->
-        <button class="btn no" id="noBtn" aria-label="No">No :( </button>
-      </div>
+        <div class="imageWrap">
+          <img
+            src="hehe.png"
+            alt="cute date illustration"
+            onerror="this.style.display='none'"
+          />
+        </div>
 
-      <div class="result hidden" id="result">
-        <h2>YAY!! 🎉</h2>
-        <p>Okay it's a date. I'll text you the details 💌</p>
-      </div>
+        <div class="buttons" id="buttonsArea">
+          <button class="btn yes" id="yesBtn">Yes, I'd love to! 💖</button>
+          <button class="btn no" id="noBtn" aria-label="No">No 😢</button>
+        </div>
+      </section>
+
+        <!-- STEP 2 -->
+      <section id="step2" class="hidden">
+        <h1 class="title">YAY!! 🎉</h1>
+        <p class="subtitle">When are you free on Sunday?</p>
+
+        <div class="timeGrid" id="timeGrid">
+          <button class="btn yes timeBtn" data-time="Sunday Morning">Sunday Morning ☀️</button>
+          <button class="btn yes timeBtn" data-time="Sunday Afternoon">Sunday Afternoon 🌤️</button>
+          <button class="btn yes timeBtn" data-time="Sunday Evening">Sunday Evening 🌙</button>
+        </div>
+      </section>
+      <!-- STEP 3 -->
+      <section id="step3" class="hidden">
+        <h1 class="title">What do you want to do?</h1>
+        <p class="subtitle">Options:</p>
+
+        <div class="optionGrid" id="optionGrid">
+          <button class="btn yes option" data-activity="Picnic">Picnic 🧺</button>
+          <button class="btn yes option" data-activity="Movie">Movie 🎥</button>
+          <button class="btn yes option" data-activity="Museum">Museum 🖼️</button>
+        </div>
+
+        <div class="result hidden" id="finalMsg">
+          <h2>Perfect 😍</h2>
+          <p id="chosenTimeText"></p>
+          <p>I'll text you the plan 💌 (pls text me what u picked there's no backend lol)</p>
+        </div>
+      </section>
     </main>
 
     <script src="script.js"></script>
