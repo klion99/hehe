@@ -99,20 +99,40 @@ window.addEventListener("resize", placeNoNextToYes);
 /* Keep your floating hearts code below this line (unchanged) */
 
 
-function createHearts(count = 40) {
+const heartsWrap = document.getElementById("hearts");
+
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function setHeartVars(el) {
+  el.style.setProperty("--x", rand(0, 100) + "vw");
+  el.style.setProperty("--y", rand(0, 100) + "vh");
+  el.style.setProperty("--size", rand(10, 22) + "px");
+  el.style.setProperty("--op", rand(0.25, 0.85));
+  el.style.setProperty("--dx", rand(-50, 50) + "px");
+  el.style.setProperty("--dy", rand(-50, 50) + "px");
+  el.style.setProperty("--dur", rand(3.5, 8) + "s");
+}
+
+function createHearts(count = 45) {
+  // clear old hearts (prevents duplicates on reload)
+  heartsWrap.innerHTML = "";
+
   for (let i = 0; i < count; i++) {
     const h = document.createElement("div");
     h.className = "heart";
     setHeartVars(h);
 
-    // randomize start delays so they’re not synced
+    // stagger animation start so it's not synced
     h.style.animationDelay = `${rand(0, 2.5)}s, ${rand(0, 2.5)}s`;
 
     heartsWrap.appendChild(h);
 
-    // every few seconds, pick a new drift direction so it feels random
+    // every few seconds, update drift direction / position
     setInterval(() => setHeartVars(h), Math.floor(rand(2500, 5200)));
   }
 }
 
-createHearts(45);
+// run once
+createHearts(55);

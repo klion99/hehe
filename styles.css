@@ -22,44 +22,46 @@ body {
               linear-gradient(180deg, #fde7f3, #fff);
 }
 
-/* hearts layer */
-#hearts{
+/* floating hearts layer - visible on ALL steps */
+#hearts {
   position: fixed;
   inset: 0;
-  pointer-events: none;  /* hearts won’t block clicks */
+  pointer-events: none; /* doesn't block clicks */
   z-index: 0;
 }
 
-.heart{
+/* card stays above hearts */
+.card {
+  position: relative;
+  z-index: 2;
+}
+
+/* each heart */
+.heart {
   position: absolute;
   left: var(--x);
   top: var(--y);
-  width: var(--size);
-  height: var(--size);
+  font-size: var(--size);
   opacity: var(--op);
-
   transform: translate(-50%, -50%);
   animation:
-    drift var(--dur) ease-in-out infinite alternate,
-    twinkle calc(var(--dur) * 0.6) ease-in-out infinite alternate;
+    float var(--dur) ease-in-out infinite alternate,
+    fade calc(var(--dur) * 0.7) ease-in-out infinite alternate;
 }
 
-.heart::before{
-  content: "❤";
-  display: block;
-  font-size: var(--size);
-  line-height: 1;
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.10));
+/* use an emoji heart (simple + visible) */
+.heart::before {
+  content: "💗";
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
 }
 
-/* moves between two random points */
-@keyframes drift{
-  from { transform: translate(-50%, -50%) translate(0, 0) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) rotate(var(--rot)); }
+@keyframes float {
+  from { transform: translate(-50%, -50%) translate(0, 0); }
+  to   { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)); }
 }
 
-@keyframes twinkle{
-  from { opacity: calc(var(--op) * 0.7); }
+@keyframes fade {
+  from { opacity: calc(var(--op) * 0.5); }
   to   { opacity: var(--op); }
 }
 
