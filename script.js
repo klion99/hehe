@@ -87,10 +87,11 @@ optionButtons.forEach((btn) => {
     finalMsg.classList.remove("hidden");
 
     // Optional: disable buttons after selection
-    optionsButtons.forEach(b => (b.disabled = true));
-    optionsButtons.forEach(b => (b.style.opacity = "0.8"));
+    optionButtons.forEach(b => (b.disabled = true));
+    optionButtons.forEach(b => (b.style.opacity = "0.8"));
   });
 });
+
 
 // Initial placement + keep aligned on resize
 placeNoNextToYes();
