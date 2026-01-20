@@ -11,6 +11,19 @@ const optionButtons = document.querySelectorAll(".option");
 const finalMsg = document.getElementById("finalMsg");
 const chosenTimeText = document.getElementById("chosenTimeText");
 
+let noAttempts = 0;
+const noMsg = document.getElementById("noMsg");
+
+const taunts = [
+  "Nice try 😌",
+  "Nope 😛",
+  "Wait really? :(",
+  "You sure about that? :((",
+  "😢😢",
+  "I'm sad now",
+];
+
+
 function clamp(n, min, max) {
   return Math.min(Math.max(n, min), max);
 }
@@ -32,18 +45,61 @@ function placeNoNextToYes() {
 }
 
 function moveNoButton() {
+  noAttempts++;
+
   const areaRect = buttonsArea.getBoundingClientRect();
   const btnRect = noBtn.getBoundingClientRect();
 
   const maxX = areaRect.width - btnRect.width - 2;
   const maxY = areaRect.height - btnRect.height - 2;
 
-  const x = Math.floor(Math.random() * Math.max(1, maxX));
-  const y = Math.floor(Math.random() * Math.max(1, maxY));
+  // Make the movement "harder" each time (bigger jumps)
+  // Starts gentle, then gets more dramatic
+  const intensity = Math.min(1, noAttempts / 6); // ramps up to 1 by ~6 attempts
+
+  // Pick a random spot, but bias away from current position as attempts increase
+  const currentLeft = parseFloat(noBtn.style.left || "0");
+  const currentTop = parseFloat(noBtn.style.top || "0");
+
+  let x, y;
+  for (let i = 0; i < 8; i++) {
+    const candidateX = Math.floor(Math.random() * Math.max(1, maxX));
+    const candidateY = Math.floor(Math.random() * Math.max(1, maxY));
+
+    const dx = candidateX - currentLeft;
+    const dy = candidateY - currentTop;
+    const dist = Math.hypot(dx, dy);
+
+    // Require larger distance as intensity increases
+    const minDist = 40 + intensity * 140;
+
+    if (dist >= minDist || i === 7) {
+      x = candidateX;
+      y = candidateY;
+      break;
+    }
+  }
 
   noBtn.style.left = `${x}px`;
   noBtn.style.top = `${y}px`;
+
+  // Update message
+  if (noMsg) {
+    noMsg.textContent = taunts[Math.min(noAttempts - 1, taunts.length - 1)];
+  }
+
+  // Add shake after a few attempts
+  if (noAttempts >= 4) {
+    noBtn.classList.add("shake");
+  }
+
+  // After enough attempts, remove "No" completely
+  if (noAttempts >= 10) {
+    noBtn.style.display = "none";
+    if (noMsg) noMsg.textContent = "😾😼😼 no no for u hehe";
+  }
 }
+
 
 // Make "No" run away
 noBtn.addEventListener("mouseenter", moveNoButton);
